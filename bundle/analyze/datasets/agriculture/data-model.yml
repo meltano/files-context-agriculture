@@ -1,0 +1,40 @@
+version: datasets/v0.3
+title: "Agriculture: data model"
+questions: What are the core entities of agriculture data, and at what grain should each be modelled?
+description: |
+  The entities most agriculture data reduces to, with the grain and key of each. Use it to map raw
+  source tables onto a consistent model. Names are suggestions; keep the organisation's own terms
+  where they already exist.
+
+  | Entity | Grain (one row per…) | Notes |
+  |---|---|---|
+  | `farm` (holding) | holding | Has an official holding number (a County Parish Holding, CPH, in Great Britain) and a business owner |
+  | `field` (land parcel) | field version | Boundary geometry, area and official parcel ID. Version it: fields are split, merged and re-measured |
+  | `season` | harvest year | The crop year a crop is reported in, usually named for the year of harvest |
+  | `crop_plan` (cropping) | field per season per crop | The crop and variety grown, sown area, previous crop. Catch and cover crops are extra rows |
+  | `operation` (field activity) | operation on a field | Drilling, spraying, fertilising, cultivation, harvest. Date, machine, operator, area worked |
+  | `input_application` | product applied in an operation | Product, rate per hectare, total quantity, unit. Sprays carry the product's registration number |
+  | `harvest` (yield record) | field per season per crop | Tonnes harvested, moisture, area harvested. Yield maps sit beneath it at point or grid grain |
+  | `soil_sample` | sample | Location, date, pH, P, K, Mg indices, organic matter |
+  | `animal` | individual animal | Official ear tag or ID, species, breed, sex, date of birth, dam. Poultry and pigs are usually managed as `batch` instead |
+  | `animal_movement` | movement | From and to holdings, date, reason. Reported to the official register within a deadline |
+  | `animal_event` | event | Weighing, treatment, service, calving, death. Treatments carry the medicine, dose and withdrawal period |
+  | `milk_record` | animal per milking or test day | Volume, butterfat, protein, somatic cell count |
+  | `grain_contract` | contract | Buyer, crop, tonnage, price basis, delivery window, quality specification |
+  | `intake_ticket` (delivery) | load delivered | Weighbridge gross and net weights, moisture, quality tests, deductions |
+
+  ## Relationships
+
+  - A **farm** has many **fields**; a field has one **crop plan** per crop per **season**.
+  - A crop plan has many **operations**, and each operation applies zero or more **inputs**.
+  - A crop plan ends in a **harvest**, delivered as **intake tickets** against **grain contracts**.
+  - An **animal** belongs to one holding at a time; **movements** change the holding and **events**
+    record what happens to it.
+
+  ## Status and history
+
+  Field boundaries, crop plans and contracts change during the season, and animals move between
+  holdings. Keep the history of field versions and animal locations, so a report can be run "as at"
+  a date and a season's figures still use that season's field areas.
+
+  #agriculture #organisation-context

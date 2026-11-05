@@ -1,0 +1,50 @@
+version: datasets/v0.3
+title: "Agriculture: key metrics"
+questions: Which metrics does an agriculture organisation run on, and how is each calculated?
+description: |
+  Standard definitions of the metrics agriculture organisations report. Confirm each one with the
+  farm manager, agronomist or finance team before building it: organisations differ on which area
+  they divide by, which costs they allocate, and which season a figure belongs to.
+
+  ## Crops
+
+  | Metric | Definition |
+  |---|---|
+  | Yield | Tonnes harvested ÷ hectares harvested, at a standard moisture (for example 15% for wheat). Say which area: cropped or harvested |
+  | Yield vs five-year average | Season's yield ÷ mean yield of the same crop over the previous five seasons |
+  | Input use per hectare | Quantity of a product (kg of nitrogen, litres of a spray) ÷ hectares treated |
+  | Nitrogen use efficiency | Nitrogen removed in the harvested crop ÷ nitrogen applied |
+  | Variable cost per hectare | Seed, fertiliser, sprays and other direct inputs for a crop ÷ cropped hectares |
+  | Gross margin per hectare | (Output value − variable costs) ÷ cropped hectares. Output value includes the crop and any by-product such as straw |
+  | Cost of production per tonne | (Variable costs + allocated fixed costs) ÷ tonnes produced. State how fixed costs were allocated |
+
+  ## Livestock
+
+  | Metric | Definition |
+  |---|---|
+  | Daily liveweight gain (DLWG) | (Weight at second weighing − weight at first) ÷ days between them |
+  | Feed conversion ratio (FCR) | Feed consumed ÷ liveweight gained, over the same period and group |
+  | Mortality rate | Animal deaths in the period ÷ average number of animals on hand |
+  | Calving interval | Days between successive calvings of the same cow, averaged over the herd |
+  | Milk yield per cow | Litres sold or produced ÷ average number of cows in milk, or of all cows. Say which |
+  | Somatic cell count (SCC) | Bulk tank or individual cell count, in thousands of cells per ml. A measure of udder health and milk quality |
+  | Antibiotic use | Milligrams of active ingredient per population correction unit (mg/PCU), as used in UK sector reporting |
+
+  ## Trading and supply
+
+  | Metric | Definition |
+  |---|---|
+  | Contract coverage | Tonnes contracted ÷ tonnes expected to be harvested or in store |
+  | Average achieved price | Value of sales ÷ tonnes sold, after quality deductions and haulage |
+  | Intake rejection rate | Loads rejected ÷ loads delivered |
+  | Stock in store | Opening stock + intake − dispatches − shrinkage (drying and handling losses) |
+
+  ## Farm business
+
+  | Metric | Definition |
+  |---|---|
+  | Farm business income | Output less costs, before the owner's own labour and capital are paid for. Follows the UK Farm Business Survey definition where used |
+  | Return on capital employed (ROCE) | Profit before interest and tax ÷ capital employed |
+  | Share of income from subsidies and schemes | Scheme and subsidy payments ÷ total farm income |
+
+  #agriculture #organisation-context

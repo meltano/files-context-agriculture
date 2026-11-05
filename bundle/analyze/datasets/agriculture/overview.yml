@@ -1,0 +1,55 @@
+version: datasets/v0.3
+title: "Agriculture: industry overview"
+questions: What does an agriculture organisation's data look like, and where does it come from?
+description: |
+  Industry context for this workspace, for the people and AI assistants working in it. It has no
+  query: it is a briefing to read before modelling or analysing this organisation's data.
+
+  ## Segments
+
+  Agriculture covers organisations that grow crops, raise livestock, or supply and buy from the
+  people who do. The segments differ in which entities and metrics matter most:
+
+  - **Arable and horticulture:** cereals, oilseeds, vegetables, fruit and protected crops. Fields,
+    crop plans, inputs applied, operations and yields drive the data.
+  - **Livestock and dairy:** beef, sheep, pigs, poultry and dairy herds. Individual animals or
+    batches, movements, feed, health treatments, milk recording and weights drive the data.
+  - **Agribusiness and input supply:** seed, fertiliser, crop protection, feed and machinery
+    dealers. Orders, product registrations, grower accounts and seasonal sales drive the data.
+  - **Grain trading, storage and processing:** merchants, co-operatives, mills and packers.
+    Contracts, intake tickets, quality tests, stock in store and movements drive the data.
+  - **Agronomy and ag-tech:** advisory services, precision farming and remote sensing. Field
+    boundaries, soil samples, recommendations, imagery and sensor readings drive the data.
+  - **Estates and mixed farms:** often all of the above, plus land, subsidies and environmental
+    schemes.
+
+  ## Typical source systems
+
+  | System | Examples | What it holds |
+  |---|---|---|
+  | Farm management (FMIS) | Gatekeeper, Muddy Boots, Farmplan, Climate FieldView, John Deere Operations Center, Trimble Ag Software | Fields, crop plans, operations, inputs applied, yields |
+  | Machinery telematics | John Deere Operations Center, CLAAS Telematics, AgLeader, ISOBUS task files | Machine passes, as-applied and yield maps, fuel, hours |
+  | Livestock management | Herdwatch, Farmplan Cattle Manager, the herd's milk-recording service | Animals, movements, breeding, treatments, weights |
+  | Milking and parlour | Lely, DeLaval, GEA | Yields per milking, conductivity, robot visits |
+  | Government registers | BCMS (UK cattle), ARAMS (UK sheep and goats), the Rural Payments service | Official animal records, movements, scheme claims |
+  | Accounting / ERP | Xero, Sage, Farmplan Business Manager, Microsoft Dynamics 365, SAP | General ledger, invoices, costs, payroll |
+  | Grain and trading | The merchant's or co-operative's trading and intake system | Contracts, intake tickets, quality, stock |
+  | Weather and sensing | Met Office, weather stations, soil moisture probes, satellite imagery (Sentinel-2) | Rainfall, temperature, moisture, vegetation indices |
+
+  ## What makes the data different
+
+  - **It runs on seasons, not calendar years.** A crop is planted in one year and harvested in the
+    next, and a harvest year, a financial year and a calendar year rarely line up. Say which one each
+    report uses.
+  - **It is spatial.** Fields have boundaries, areas and parcel IDs that change when fields are
+    split, merged or re-measured. Yield and application data come as maps, not single numbers.
+  - **Units vary.** Hectares and acres, tonnes and bushels, litres and kilograms of product, and yields
+    at different moisture contents. Normalise before comparing.
+  - **Biology adds noise.** Weather, disease and soil make year-on-year comparisons hard: compare
+    against a multi-year average, not one year.
+  - **Some data is regulated.** Animal identification and movements, pesticide and fertiliser
+    records, and subsidy claims have statutory rules. See *Agriculture: handling the data*.
+
+  Related datasets: *data model*, *metrics*, *modelling it in dbt*, *handling the data*.
+
+  #agriculture #organisation-context

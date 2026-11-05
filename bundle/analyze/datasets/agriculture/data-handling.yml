@@ -1,0 +1,48 @@
+version: datasets/v0.3
+title: "Agriculture: handling the data"
+questions: What care does agriculture data need in the warehouse?
+description: |
+  Agriculture data mixes personal data about farmers and workers, commercially sensitive data, and
+  records the law requires a farm to keep. These are general practices for a warehouse holding it.
+  They are not legal or compliance advice: the organisation decides what applies to it.
+
+  ## Classify the data
+
+  | Class | Examples | Handling |
+  |---|---|---|
+  | Personal data | Farmer and landowner names, addresses, phone numbers, holding owner details | Restrict access, mask in non-production and in marts that do not need it. A sole trader's farm business data is also personal data |
+  | Worker data | Seasonal worker identity, right-to-work and visa details, accommodation, pay | Restrict to HR and payroll roles. Do not load identity documents |
+  | Location data | Field boundaries, GPS tracks, machine positions, farmyard locations | Treat as sensitive: it identifies people and premises, and helps theft of machinery and livestock |
+  | Commercial data | Yields, prices, contract terms, input costs, margins | Restrict to the roles that need it. Aggregate before sharing across farms or with partners |
+  | Statutory records | Animal IDs and movements, medicine records, pesticide applications, fertiliser records | Keep complete and unaltered. Never delete or overwrite them in the warehouse |
+
+  ## Practices
+
+  - **Least privilege.** Separate raw, staging and mart schemas, and grant raw schemas only to the
+    pipelines and the people who maintain them.
+  - **Keep statutory records whole.** Load animal, medicine and spray records append-only, keep the
+    original record and its load time, and model corrections as new rows.
+  - **Shared and pooled data.** Benchmarking groups, co-operatives and agronomists often see many
+    farms' data. Agree who owns each farm's data and what can be shared, and share only aggregates
+    unless each farm agrees otherwise.
+  - **Retention.** Some farm records must be kept for a minimum period (for example, veterinary
+    medicine records and pesticide application records). Agree retention with the organisation, and
+    keep personal data no longer than needed.
+  - **Data subject requests.** Under GDPR and UK GDPR a farmer or worker can ask for their data or for
+    its erasure, so know where each person's data lives.
+
+  ## Rules and codes to be aware of
+
+  Which apply depends on the organisation's country and activities. Common ones:
+
+  - **UK:** UK GDPR; cattle, sheep, goat and pig identification and movement reporting (BCMS, ARAMS
+    and eAML2 in England); veterinary medicine record keeping; pesticide application records; the
+    Farming Rules for Water and nitrate vulnerable zone (NVZ) rules in England; assurance schemes
+    such as Red Tractor.
+  - **EU:** GDPR, the Common Agricultural Policy's land parcel identification system and claims, and
+    animal identification and traceability rules.
+  - **US:** USDA programmes and their reporting, and state privacy laws.
+  - **Agricultural data codes:** the EU Code of Conduct on agricultural data sharing and similar
+    industry codes set expectations on who controls farm data.
+
+  #agriculture #organisation-context

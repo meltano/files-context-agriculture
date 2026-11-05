@@ -1,0 +1,68 @@
+version: datasets/v0.3
+title: "Agriculture: modelling it in dbt"
+questions: How should raw agriculture data be modelled in dbt so that it reconciles?
+description: |
+  Conventions for building dbt models on raw agriculture data. They apply on top of the workspace's
+  usual dbt layout: staging, then intermediate, then marts.
+
+  ## Seasons and dates
+
+  - **Model a season dimension** (`dim_season`) and give every crop record a `harvest_year`. Do not
+    derive the season from the calendar year of an operation: autumn-drilled crops are sown in the
+    year before they are harvested.
+  - Keep the **financial year** separate from the harvest year, and map costs to both. A spray bought
+    in one financial year can be applied to the next season's crop.
+  - Livestock data runs on dates, not seasons: use event dates, and the animal's age at the event.
+
+  ## Units and quantities
+
+  - **Normalise units in staging.** Convert areas to hectares, weights to tonnes or kilograms, and
+    volumes to litres, and name each column for its unit (`area_ha`, `net_weight_t`).
+  - **Standardise moisture.** Yields and intake weights are reported at different moisture contents.
+    Keep the measured weight and moisture, and add a weight at the standard moisture for the crop.
+  - **Product rates need the product.** Convert application rates to active ingredient or nutrient
+    (kg N, P₂O₅, K₂O per hectare) with a product table, rather than summing litres of different
+    products.
+
+  ## Fields and space
+
+  - Treat **fields as slowly changing**. Snapshot field boundaries and areas, and join crop records to
+    the field version valid in that season, so past yields keep their original area.
+  - Keep geometry in the warehouse's spatial type (or WKT/GeoJSON text where there is none), and the
+    area as a separate number: recalculating area from geometry differs by projection.
+  - Yield and as-applied maps are large point data. Aggregate them to field or grid-cell grain in an
+    intermediate model; do not join raw points into marts.
+
+  ## Livestock
+
+  - Use the **official animal ID** as the key, and keep management tags or names as attributes.
+  - Build **animal location history** from movements, and a daily animals-on-hand table from it:
+    mortality, stocking rates and feed per head all divide by it.
+  - Reconcile births, deaths and movements against the official register (BCMS in Great Britain).
+
+  ## Tests
+
+  Add these beside the usual `unique` and `not_null` tests:
+
+  - **Area:** cropped area per field and season does not exceed the field's area (except for catch or
+    double crops, flagged explicitly).
+  - **Yield range:** yield per hectare falls within a plausible range for the crop; flag outliers,
+    which are usually unit or area errors.
+  - **Stock balance:** opening stock + intake − dispatches = closing stock, within a shrinkage
+    tolerance.
+  - **Animal balance:** opening head count + births + moves on − deaths − moves off = closing count.
+  - **Accepted values** on crop codes, operation types and species.
+  - **Freshness** on telematics and sensor sources, which stop silently when a device loses signal.
+
+  ## Naming
+
+  - Prefix models by layer (`stg_`, `int_`, `fct_`, `dim_`), and name facts for their grain:
+    `fct_field_operations`, `fct_harvests`, `fct_animal_events`, `fct_animals_on_hand_daily`.
+
+  ## Sensitive columns
+
+  Tag personal columns (owners, staff, contractors) and commercially sensitive ones (prices,
+  contract terms) in the model YAML, for example `meta: {pii: true}`. See *Agriculture: handling the
+  data*.
+
+  #agriculture #organisation-context
